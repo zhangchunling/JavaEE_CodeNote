@@ -1,0 +1,70 @@
+UDP全称（User Datagram Protocol）:用户数据报协议
+
+1.UDP协议基础：
+	1.1 UDP协议是一种不可靠的网络协议，它在通信实例两端各建立一个Socket,
+		但这两个Socket之间并没有虚拟链路（面向非连接），它们只是发送、接收数据报的对象。
+		Java提供了DatagramSocket对象作为基于UDP协议的Socket，
+		使用DatagramPacket代表DatagramSocket发送、接收的数据报。
+	1.2 UDP协议是面向非连接的协议，即在通信前不必与对方先建立连接，直接发送，因此通信效率高啊。
+		对于对方是否能接收到数据，UDP不管，所以它是一种不可靠协议。（一次只能发少量数据）
+	1.3 UDP协议的主要作用，是完成网络数据流量和数据报之间的转换
+		在发送端：将网络数据流量封装成数据报，然后发出去；
+		在接收端：将数据报转换成实际数据内容。
+		【实际上，UDP协议的通信双方没有客户端与服务端的概念。】
+	1.4 UDP和TCP协议的简单区别：
+		TCP:可靠，传输大小无限制，但需要建立连接耗时，差错控制开销大。
+		UDP:不可靠，传输在64K以下，不需建立连接，差错控制开销较小。
+
+2.使用DatagramSocket发送、接收数据
+	DatagramSocket类比"码头"，只用于接收、发送数据（货物）;DatagramPacket类比码头上的"集装箱"，用于实际发货。
+	
+	2.1 DatagramSocket类：
+		/**
+		 * 构造器：
+		 * 1.DatagramSocket socket1 = new DatagramSocket();
+		 *    会将socket1对象绑定到 本机 默认IP地址，本机所有可用端口随机选择一个。
+		 * 2.DatagramSocket socket2 = new DatagramSocket(44444);
+		 *    会将socket2对象绑定到 本机 默认IP地址，端口用指定的44444
+		 * 3.DatagramSocket(int port,InetAddress addr)
+		 *    DatagramSocket socket3 = new DatagramSocket(44444,"192.168.2.181");
+		 *    指定IP地址，指定端口创建一个对象
+		 */
+		
+	2.2 DatagramPacket类：
+		当服务器（客户端）接收到一个DatagramPacket对象后，如果想向数据报的发送端"反馈"一些信息，
+		由于UDP是面向非连接的，所以接收者并不知道数据报是谁发来的，但可调用DatagramPacket的方法获取发送者的IP和端口：
+		InetAddress getAddress():返回该数据包来源的主机IP。若该数据包是要发送出去的，则是本机的；若是接收到的，则是发送端的IP
+		int getPort():返回数据包来源的机器的端口。是要发送的数据包，则是本机的端口;若是接收到的数据包，则是远程主机的端口。
+		getSocketAddress()： 获取此包来源的主机的 SocketAddress（通常为 IP 地址 + 端口号）。
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

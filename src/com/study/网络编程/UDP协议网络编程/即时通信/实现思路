@@ -1,0 +1,47 @@
+1.实现功能：
+	启动该工具后，就可看到该局域网内所有在线用户，自己也会被别人看到
+	点击用户列表的所有人时，输入的聊天信息会被所有人看到；
+	点击具体某个人时，只对某个人发送信息
+
+2. 思路：
+	2.1  每个用户都启动2个Socket,一个MulticastSocket,一个DatagramSocket。
+	2.2 MulticastSocket周期性地向230.0.0.1发送在线消息，还向所有用户发送广播信息。
+	2.3  其中所有用户的MulticastSocket都会加到230.0.0.1这个多点广播IP中，
+		这样每个用户都可以收到其他用户广播的在线消息。
+	2.4 如果系统经过一段时间没有收到某个用户广播的在线信息，则从用户列表中删除该用户。
+	2.5 DatagramSocket主要用于发送私聊信息。当用户收到其他用户广播来的DatagramPacket时,
+		即可获取该用户MulticastSocket对应的SocketAddress,
+		这个SocketAddress将作为发送私聊信息的重要依据：
+			本程序让MulticastSocket在30000端口监听，而DatagramSocket在30001端口监听，
+			这样程序就可以根据其他用户广播来的DatagramPacket得到他的DatagramSocket所在的地址。
+	
+3. 该功能还涉及MyProtocol、ChatFrame、LoginFrame等类，
+	详情参见《疯狂JAVA讲义》codes/17/17/4/LanTalk下的源码，在光盘里
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
